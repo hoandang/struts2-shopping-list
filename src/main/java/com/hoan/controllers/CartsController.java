@@ -93,7 +93,18 @@ public class CartsController implements SessionAware, ServletRequestAware
         shoppingList = (List)session.get("shoppingList");
 
         for (int i = 0; i < newQuantities.length; i++)
-            ((Product)shoppingList.get(i)).setQuantity(Integer.parseInt(newQuantities[i]));
+        {
+            try
+            {
+                int newQuantity = Integer.parseInt(newQuantities[i]);
+                if (newQuantity > 0)
+                    ((Product)shoppingList.get(i)).setQuantity(newQuantity);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
 
         session.put("shoppingList", shoppingList);
         return new DefaultHttpHeaders("update").withStatus(200);
