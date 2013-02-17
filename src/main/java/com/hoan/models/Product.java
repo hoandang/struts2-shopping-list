@@ -1,6 +1,10 @@
 package com.hoan.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import java.util.List;
 
 @Entity(name="Products")
 public class Product
@@ -30,6 +34,11 @@ public class Product
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public boolean isAddedInto(List shoppingList)
+    {
+        return shoppingList.contains(this);
     }
 
     public void setCategory(Category category)
@@ -73,6 +82,13 @@ public class Product
         this.quantity = quantity;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        return ((Product)obj).id == id;
+    }
+
+    @Override
     public String toString()
     {
         return "Id: " + getId() + ", Desc: " + getDescription() +

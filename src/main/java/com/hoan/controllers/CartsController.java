@@ -10,9 +10,12 @@ import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Enumeration;
 import java.util.HashMap;
 import com.hoan.models.Product;
 import com.hoan.services.ShopServicesImpl;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts2.interceptor.ServletRequestAware;
 
 //@Result(name="create", type="redirectAction", params = {"actionName" , "carts"})
 //@Action(results={@Result(name="create", location="/carts", type="redirect")})
@@ -21,46 +24,44 @@ import com.hoan.services.ShopServicesImpl;
     @Result(name="delete", type="redirect", location="/carts"),
     @Result(name="update", type="redirect", location="/carts")
 })
-public class CartsController implements SessionAware
+public class CartsController implements SessionAware, ServletRequestAware
 {
     private ShopServicesImpl service;
-    private Map session, shoppingList;
-    private List<Product> products;
+    private Map session;
+    private List shoppingList;
+    private HttpServletRequest request;
     private String id;
 
     public HttpHeaders index()
     {
         if (session.containsKey("shoppingList"))
-        {
-            service = new ShopServicesImpl();
-            products = new ArrayList<Product>();
-            shoppingList = (Map)session.get("shoppingList");
-            for (Map.Entry<String, Integer> entry : ((Map<String, Integer>)shoppingList).entrySet()) 
-            {
-                String id = entry.getKey();
-                Integer quantity = entry.getValue();
-                Product product = service.findProduct(Integer.parseInt(id));
-                product.setQuantity(quantity);
-                products.add(product);
-            }
-        }
+            shoppingList = (List)session.get("shoppingList");
         return new DefaultHttpHeaders("index").disableCaching();
     }
 
     public HttpHeaders create()
     {
+        service = new ShopServicesImpl();
+        Product product = service.findProduct(Integer.parseInt(id));
         if (session.containsKey("shoppingList"))
         {
-            shoppingList = (Map)session.get("shoppingList");
-            if (productWasAlreadyIn(shoppingList))
-                increaseQuantity();
+            shoppingList = (List)session.get("shoppingList");
+            if (product.isAddedInto(shoppingList))
+            {
+                product = (Product)shoppingList.get(shoppingList.indexOf(product));
+                product.setQuantity(product.getQuantity() + 1);
+            }
             else
-                shoppingList.put(id, 1);
+            {
+                product.setQuantity(1);
+                shoppingList.add(0, product);
+            }
         }
         else
         {
-            shoppingList = new HashMap<String, Integer>();
-            shoppingList.put(id, 1);
+            product.setQuantity(1);
+            shoppingList = new ArrayList<Product>();
+            shoppingList.add(0, product);
         }
         session.put("shoppingList", shoppingList);
         return new DefaultHttpHeaders("create").withStatus(201);
@@ -74,37 +75,31 @@ public class CartsController implements SessionAware
         }
         else
         {
-            shoppingList = (Map)session.get("shoppingList");
-            shoppingList.remove(id);
+            service = new ShopServicesImpl();
+            shoppingList = (List)session.get("shoppingList");
+            shoppingList.remove(service.findProduct(Integer.parseInt(id)));
+
             if (shoppingList.size() == 0)
                 session.remove("shoppingList");
             else
                 session.put("shoppingList", shoppingList);
         }
-        //for (Map.Entry<String, Integer> entry : ((Map<String, Integer>)shoppingList).entrySet()) 
-        //{
-
-            ////System.out.println("-----------------ID: " + entry.getKey() + "------QUANTITY----------" + entry.getValue());
-        //}
         return new DefaultHttpHeaders("delete").withStatus(200);
     }
 
     public HttpHeaders update()
     {
+        String[] newQuantities = request.getParameterValues("productQuantity");
+        shoppingList = (List)session.get("shoppingList");
+
+        for (int i = 0; i < newQuantities.length; i++)
+            ((Product)shoppingList.get(i)).setQuantity(Integer.parseInt(newQuantities[i]));
+
+        session.put("shoppingList", shoppingList);
         return new DefaultHttpHeaders("update").withStatus(200);
     }
 
-    private boolean productWasAlreadyIn(Map shoppingList)
-    {
-        return shoppingList.get(id) != null;
-    }
-    private void increaseQuantity()
-    {
-        int quantity = Integer.parseInt(shoppingList.get(id).toString());
-        shoppingList.put(id, quantity + 1);
-    }
-
-    public String setId()
+    public String getId()
     {
         return id;
     }
@@ -113,16 +108,27 @@ public class CartsController implements SessionAware
         this.id = id;
     }
 
+    public List getShoppingList()
+    {
+        return shoppingList;
+    }
+    public void setShoppingList(List shoppingList)
+    {
+        this.shoppingList = shoppingList;
+    }
+
     public void setSession(Map session)
     {
         this.session = session;
     }
-    public List<Product> getProducts()
+    
+	public void setServletRequest(HttpServletRequest request) 
     {
-        return products;
-    }
-    public void setProducts(List<Product> products)
+		this.request = request;
+	}
+ 
+	public HttpServletRequest getServletRequest() 
     {
-        this.products = products;
-    }
+		return this.request;
+	}
 }

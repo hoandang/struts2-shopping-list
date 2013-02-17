@@ -28,12 +28,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="product" items="${products}">
+                <c:forEach var="product" items="${shoppingList}">
                     <tr>
                         <td>${product.id}</td>
                         <td>${product.description}</td>
                         <td>
-                            <input type="text" name="quantity" class="quantity" value="${product.quantity}"/>
+                            <input type="text" name="productQuantity" class="quantity" value="${product.quantity}"/>
                         </td>
                         <td>${product.price}</td>
                         <td>100</td>
