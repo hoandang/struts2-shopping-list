@@ -50,16 +50,19 @@ public class CartsController implements SessionAware, ServletRequestAware
             {
                 product = (Product)shoppingList.get(shoppingList.indexOf(product));
                 product.setQuantity(product.getQuantity() + 1);
+                product.setTotal(product.getQuantity() * product.getPrice());
             }
             else
             {
                 product.setQuantity(1);
+                product.setTotal(product.getQuantity() * product.getPrice());
                 shoppingList.add(0, product);
             }
         }
         else
         {
             product.setQuantity(1);
+            product.setTotal(product.getQuantity() * product.getPrice());
             shoppingList = new ArrayList<Product>();
             shoppingList.add(0, product);
         }
@@ -98,7 +101,11 @@ public class CartsController implements SessionAware, ServletRequestAware
             {
                 int newQuantity = Integer.parseInt(newQuantities[i]);
                 if (newQuantity > 0)
-                    ((Product)shoppingList.get(i)).setQuantity(newQuantity);
+                {
+                    Product product = (Product)shoppingList.get(i);
+                    product.setQuantity(newQuantity);
+                    product.setTotal(newQuantity * product.getPrice());
+                }
             }
             catch (Exception ex)
             {

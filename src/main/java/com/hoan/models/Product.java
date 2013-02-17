@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.Transient;
 import java.util.List;
 
 @Entity(name="Products")
@@ -13,6 +14,10 @@ public class Product
     private int id;
     private String description;
     private double price;
+
+    @Transient
+    private double total;
+    @Transient
     private int quantity;
 
     @ManyToOne
@@ -22,18 +27,6 @@ public class Product
     public Category getCategory()
     {
         return category;
-    }
-
-    public Product()
-    {
-
-    }
-    public Product(int id, String description, double price, int quantity)
-    {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
     }
 
     public boolean isAddedInto(List shoppingList)
@@ -71,6 +64,15 @@ public class Product
     public void setPrice(double price)
     {
         this.price = price;
+    }
+
+    public double getTotal()
+    {
+        return total;
+    }
+    public void setTotal(double total)
+    {
+        this.total = total;
     }
 
     public int getQuantity()

@@ -3,8 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("empty").addEventListener("click", function(e){
         var msg = 'Are you sure you want to empty the cart ?';
         customConfirm(msg);
-        ////customConfirm(msg, function(){alert('id deleted')},function(){alert('user pressed Cancel button')}); 
         e.preventDefault();
+    });
+
+    $("#btn-update-cart").mouseover(function() {
+        $("i", this).removeClass();
+        $("i", this).addClass("icon-refresh icon-spin icon-large");
+    }).mouseout(function(){
+        $("i", this).removeClass();
+        $("i", this).addClass("icon-repeat icon-large");
     });
 });
 
