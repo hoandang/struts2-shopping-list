@@ -1,1 +1,1 @@
-#Struts2 Shopping Cart
+# Shopping List website with Struts2 REST + OpenJPA + Jetty Server + Maven
