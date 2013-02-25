@@ -1,5 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <c:set var="pageTitle" scope="request" value="Shopping List"/>
@@ -13,14 +13,14 @@
     <h1>Empty cart</h1>
 </s:if>
 <s:else>
-    <h3>Shoppling List</h3>
-    <form action="carts/update" method="post">
-        <s:hidden name="_method" value="put" />
+    <h3><a href="/carts">Your cart</a> / <a href="/payment/new">Payment</a> / Confirmation</h3>
+   <form action="carts/update" method="post">
+        <input type="hidden" name="_method" value="put"/>
         <div class="row-fluid">
             <table id="shoppingList" class="table table-bordered table-hover">
                 <thead>
                     <tr class="well well-small">
-                        <th>Id</th>
+                        <th>ID</th>
                         <th>Description</th>
                         <th>Quantity</th>
                         <th>Price</th>
@@ -30,15 +30,15 @@
                 </thead>
                 <tbody>
                 <c:forEach var="product" items="${shoppingList}">
-                    <c:set var="totalOrder" value = "${totalOrder + product.total}" />
+                    <c:set var="totalOrder" value = "${totalOrder + product.subtotal}" />
                     <tr>
                         <td>${product.id}</td>
                         <td>${product.description}</td>
                         <td>
                             <input type="text" name="productQuantity" class="quantity" value="${product.quantity}"/>
                         </td>
-                        <td>$${product.price}</td>
-                        <td>$${product.total}</td>
+                        <td><fmt:formatNumber value="${product.price}" type="currency"/></td>
+                        <td><fmt:formatNumber value="${product.subtotal}" type="currency"/></td>
                         <td>
                             <a class="btn btn-remove" href="carts/${product.id}?_method=delete">
                                 <i class="icon-remove"></i> Remove</a>
@@ -48,11 +48,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="row-fluid">
+        <div class="row-fluid" id="totalOrder">
             <div class="span10"></div>
-            <h4>Order Total: $${totalOrder}</h4>
+            <h4>Order Total: <fmt:formatNumber value="${totalOrder}" type="currency"/></h4>
         </div>
-        <p></p>
         <div class="row-fluid">
             <div class="span6"></div>
             <div class="span2">
@@ -63,12 +62,11 @@
             <div class="span2">
                 <button type="submit" class="btn btn-large btn-primary" id="btn-update-cart">
                     <i class="icon-repeat icon-large"></i> Update Cart
-                     <%--<i class="icon-refresh icon-spin"></i> Update Cart--%>
                 </button>
             </div>
 
             <div class="span2">
-                <a class="btn btn-large btn-success" href="#">
+                <a class="btn btn-large btn-success" href="payment/new">
                     <i class="icon-shopping-cart icon-large"></i> Checkout</a>
             </div>
         </div>

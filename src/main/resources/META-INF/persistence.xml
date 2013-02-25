@@ -14,7 +14,7 @@
         <class>com.hoan.models.Product</class>
 		
 		<properties>
-            <property name  = "openjpa.RuntimeUnenhancedClasses" value = "supported"/>
+            <property name  = "openjpa.RuntimeUnenhancedClasses" value = "unsupported"/>
             <property name  = "openjpa.DataCache"                value = "true"/>
             <property name  = "openjpa.QueryCache"               value = "true"/>
             <property name  = "openjpa.ConnectionURL"            value = "jdbc:mysql://localhost:3306/shop" />

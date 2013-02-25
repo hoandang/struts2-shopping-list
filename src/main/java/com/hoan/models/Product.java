@@ -16,7 +16,7 @@ public class Product
     private double price;
 
     @Transient
-    private double total;
+    private double subtotal;
     @Transient
     private int quantity;
 
@@ -66,13 +66,13 @@ public class Product
         this.price = price;
     }
 
-    public double getTotal()
+    public double getSubtotal()
     {
-        return total;
+        return subtotal;
     }
-    public void setTotal(double total)
+    public void setSubtotal(double subtotal)
     {
-        this.total = total;
+        this.subtotal = subtotal;
     }
 
     public int getQuantity()
@@ -94,6 +94,6 @@ public class Product
     public String toString()
     {
         return "Id: " + getId() + ", Desc: " + getDescription() +
-            ", Price: " + getPrice() + ", Quantity: " + getQuantity();
+            ", Price: " + getPrice() + ", Quantity: " + getQuantity() + ", Subtotal: " + getSubtotal();
     }
 }

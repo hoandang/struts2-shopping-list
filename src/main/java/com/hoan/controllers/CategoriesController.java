@@ -9,13 +9,14 @@ import java.util.List;
 
 public class CategoriesController
 {
-    private ShopServicesImpl service = new ShopServicesImpl();
+    private ShopServicesImpl service;
     private List<Product> products;
     private List<Category> categories;
     private int id;
 
     public HttpHeaders show()
     {
+        service = new ShopServicesImpl();
         categories = service.findAllCategories(); 
         products   = service.findProductsByCategory(id);
         return new DefaultHttpHeaders("show");
