@@ -12,13 +12,14 @@ import java.util.Map;
 
 public class HomeController implements SessionAware
 {
-    private ShopServicesImpl service = new ShopServicesImpl();
+    private ShopServicesImpl service;
     private List<Category> categories;
     private List<Product> products;
     private Map session;
 
     public HttpHeaders index()
     {
+        service = new ShopServicesImpl();
         products = service.findNewProducts(10);
         categories  = service.findAllCategories();
         return new DefaultHttpHeaders("index").disableCaching();

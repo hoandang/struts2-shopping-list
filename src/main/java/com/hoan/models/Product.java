@@ -6,12 +6,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 import java.util.List;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 
 @Entity(name="Products")
 public class Product
 {
     @Id
+    @GeneratedValue
     private int id;
+
     private String description;
     private double price;
 
@@ -23,6 +27,14 @@ public class Product
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
+
+    public Product() {}
+
+    public Product(String description, double price)
+    {
+        this.description = description;
+        this.price       = price;
+    }
 
     public Category getCategory()
     {
