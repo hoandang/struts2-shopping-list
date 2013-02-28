@@ -5,26 +5,18 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.apache.struts2.interceptor.SessionAware; 
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.apache.struts2.convention.annotation.Action;
-import com.opensymphony.xwork2.ActionContext;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Enumeration;
-import java.util.HashMap;
-import com.hoan.models.Product;
 import com.hoan.services.ShopServicesImpl;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.struts2.interceptor.ServletRequestAware;
+import com.hoan.models.Product;
 import com.hoan.models.Customer;
 import com.hoan.models.Order;
 import com.hoan.models.OrderDetail;
-import com.hoan.models.OrderDetailPK;
 
 @Results({
-    @Result(name="error", type="redirect", location="/"),
-    @Result(name="create", type="redirect", location="/thankyou"),
-    @Result(name="confirm", type="redirect", location="/payment/show")
+    @Result(name="error",   type="redirect", location="/"),
+    @Result(name="confirm", type="redirect", location="/payment/show"),
+    @Result(name="create",  type="redirectAction", params = {"actionName" , "thankyou"})
 })
 public class PaymentController implements SessionAware
 {
@@ -60,15 +52,18 @@ public class PaymentController implements SessionAware
         Order order = new Order(customer, "UNPAID");
         service.save(order);
 
-        // Create order line between product and order
+        // Create order detail
         shoppingList = (List<Product>)session.get("shoppingList");
         for (Product product : shoppingList)
         {
-            service.save(new OrderDetail(new OrderDetailPK(product, order),
+            service.save(new OrderDetail(product, order,
                                          product.getQuantity(),
                                          product.getSubtotal()));
         }
 
+        session.remove("shoppingList");
+        session.remove("customer");
+        
         return new DefaultHttpHeaders("create").withStatus(200);
     }
 

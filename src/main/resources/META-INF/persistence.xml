@@ -24,6 +24,7 @@
 			<property name  = "openjpa.ConnectionUserName"       value = "root" />
 			<property name  = "openjpa.ConnectionPassword"       value = "password" />
 			<property name  = "openjpa.ConnectionDriverName"     value = "com.mysql.jdbc.Driver" />
+            <property name  = "openjpa.AutoDetach"               value="close, commit, nontx-read"/>
 		</properties>
 
 	</persistence-unit>

@@ -23,7 +23,7 @@ public class Order
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Orders")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderDetail> orderDetail;
 
     private String status;
@@ -37,6 +37,27 @@ public class Order
     {
         this.customer = customer;
         this.status   = status;
+    }
+
+    // Generate suffix id number following the format nnnn
+    private String suffix(int id) 
+    {
+        if (id < 10)
+            return "000" + id;
+        else if (id < 100)
+            return "00" + id;
+        else if (id < 1000)
+            return "0" + id;
+        else
+            return String.valueOf(id);
+    }
+
+    // Create the formatted order id format ODRxxxx
+    public String getFormattedId()
+    {
+        String prefix = "ODR";
+        String suffix = suffix(getId());
+        return prefix + suffix;
     }
 
     public List<OrderDetail> getOrderDetails()

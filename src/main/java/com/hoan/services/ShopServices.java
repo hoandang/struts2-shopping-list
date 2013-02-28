@@ -16,4 +16,5 @@ public interface ShopServices
     public void save(Customer customer);
     public void save(Order order);
     public void save(OrderDetail orderDetail);
+    public int getNewOrderId();
 }

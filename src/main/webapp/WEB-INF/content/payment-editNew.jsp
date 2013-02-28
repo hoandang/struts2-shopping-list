@@ -5,7 +5,7 @@
 <c:set var="pageTitle" scope="request" value="Payment"/>
 
 <jsp:include page="header.jsp" flush="true"/>
-<h3><a href="/carts">Your cart</a> / <a href="/payment/new">Payment</a> / <a href="#">Confirmation</a></h3>
+<h3><a href="/carts">Your cart</a> / <a href="/payment/new">Payment</a> /Confirmation</h3>
 <hr/>
 <form method="post" action="/payment/confirm">
     <div class="row-fluid">

@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS Products;
 DROP TABLE IF EXISTS Categories;
-DROP TABLE IF EXISTS Customers;
-DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS OrderDetails;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Customers;
 
 CREATE TABLE Categories
 (
@@ -45,11 +45,12 @@ CREATE TABLE Orders
 
 CREATE TABLE OrderDetails
 (
+    id         INT NOT NULL AUTO_INCREMENT,
     product_id INT NOT NULL,
     order_id   INT NOT NULL,
     quantity   INT NOT NULL,
     subtotal   DECIMAL(10, 2) NOT NULL,
-    PRIMARY KEY (product_id, order_id),
+    PRIMARY KEY (id),
     FOREIGN KEY (product_id) REFERENCES Products(id),
     FOREIGN KEY (order_id)   REFERENCES Orders(id)
 ) ENGINE = INNODB;

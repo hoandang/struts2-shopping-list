@@ -20,13 +20,12 @@ function loadNavigator()
     var url = document.URL.replace(/.*\//, '');
     url = url.replace("?statusCode=303", '');
     var nav = document.getElementById("navigator").getElementsByTagName("li");
-    for (var i = 0; i < nav.length; i++)
-    {
-        if (nav[i].getAttribute("data-url") === url)
-            nav[i].className = "active";
-        else if (nav[i].getAttribute("data-url") === url)
-            nav[i].className = "active";
-    }
+    if (url === "home")
+        nav[0].className = "active";
+    else if (url === "search")
+        nav[2].className = "active";
+    else
+        nav[1].className = "active";
 }
 
 function customConfirm(message, true_func, false_func){

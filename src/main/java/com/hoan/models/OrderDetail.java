@@ -12,20 +12,17 @@ import javax.persistence.IdClass;
 import javax.persistence.MapsId;
 
 @Entity(name="OrderDetails")
-@IdClass(OrderDetailPK.class)
 public class OrderDetail
 {
-    @EmbeddedId
-    private OrderDetailPK id;
-
     @Id
+    private int id;
+
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="product_id", insertable=false, updatable=false)
+    @JoinColumn(name="product_id")
     private Product product;
 
-    @Id
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="order_id", insertable=false, updatable=false)
+    @JoinColumn(name="order_id")
     private Order order;
 
     private int quantity;
@@ -33,19 +30,19 @@ public class OrderDetail
 
     public OrderDetail() {}
 
-    public OrderDetail(OrderDetailPK id, int quantity, double subtotal)
+    public OrderDetail(Product product, Order order, int quantity, double subtotal)
     {
-        this.product  = id.getProduct();
-        this.order    = id.getOrder();
+        this.product  = product;
+        this.order    = order;
         this.quantity = quantity;
         this.subtotal = subtotal;
     }
 
-    public OrderDetailPK getId()
+    public int getId()
     {
         return id;
     }
-    public void setId(OrderDetailPK id)
+    public void setId(int id)
     {
         this.id = id;
     }
@@ -85,17 +82,6 @@ public class OrderDetail
     {
         this.subtotal = subtotal;
     }
-	@Override
-	public int hashCode() 
-    {
-		return getId().hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object that) 
-    {
-		return (this == that) || ((that instanceof OrderDetail) && this.getId().equals(((OrderDetail) that).getId()));
-	}
 
     @Override
     public String toString()

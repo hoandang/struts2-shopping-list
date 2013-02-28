@@ -77,4 +77,12 @@ public class ShopServicesImpl implements ShopServices
         em.persist(orderDetail);
         em.getTransaction().commit();
     }
+    @Override
+    public int getNewOrderId()
+    {
+        String query = "SELECT o.id FROM Orders o " +
+                       "ORDER BY o.id DESC";
+		return (Integer)em.createQuery(query).setMaxResults(1)
+				.getSingleResult();
+    }
 }
