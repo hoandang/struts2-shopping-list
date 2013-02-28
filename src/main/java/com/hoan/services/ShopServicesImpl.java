@@ -2,6 +2,9 @@ package com.hoan.services;
 
 import com.hoan.models.Category;
 import com.hoan.models.Product;
+import com.hoan.models.Customer;
+import com.hoan.models.Order;
+import com.hoan.models.OrderDetail;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -37,7 +40,6 @@ public class ShopServicesImpl implements ShopServices
     @Override
     public List<Product> findProductsByCategory(int categoryId)
     {
-        // select * from products p where p.category_id = 1 order by p.id desc;
         String query = "SELECT p FROM Products p " +
                        "WHERE p.category.id = " + categoryId + " " + 
                        "ORDER BY p.id DESC";
@@ -50,5 +52,29 @@ public class ShopServicesImpl implements ShopServices
         String query = "SELECT p FROM Products p " +
                        "WHERE p.id = " + id;
         return (Product)em.createQuery(query).getSingleResult();
+    }
+
+    @Override
+    public void save(Customer customer)
+    {
+        em.getTransaction().begin();
+        em.persist(customer);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void save(Order order)
+    {
+        em.getTransaction().begin();
+        em.persist(order);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void save(OrderDetail orderDetail)
+    {
+        em.getTransaction().begin();
+        em.persist(orderDetail);
+        em.getTransaction().commit();
     }
 }

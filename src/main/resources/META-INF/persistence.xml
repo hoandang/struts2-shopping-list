@@ -12,6 +12,9 @@
 
         <class>com.hoan.models.Category</class>
         <class>com.hoan.models.Product</class>
+        <class>com.hoan.models.Customer</class>
+        <class>com.hoan.models.Order</class>
+        <class>com.hoan.models.OrderDetail</class>
 		
 		<properties>
             <property name  = "openjpa.RuntimeUnenhancedClasses" value = "unsupported"/>
