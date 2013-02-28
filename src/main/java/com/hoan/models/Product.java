@@ -3,17 +3,16 @@ package com.hoan.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
+import javax.persistence.CascadeType;
 import java.util.List;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
 
 @Entity(name="Products")
 public class Product
 {
     @Id
-    @GeneratedValue
     private int id;
 
     private String description;
@@ -28,12 +27,24 @@ public class Product
     @JoinColumn(name="category_id")
     private Category category;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Products")
+    private List<OrderDetail> orderDetail;
+
     public Product() {}
 
     public Product(String description, double price)
     {
         this.description = description;
         this.price       = price;
+    }
+
+    public List<OrderDetail> getOrderDetail()
+    {
+        return orderDetail;
+    }
+    public void setOrderDetail(List<OrderDetail> orderDetail)
+    {
+        this.orderDetail = orderDetail;
     }
 
     public Category getCategory()

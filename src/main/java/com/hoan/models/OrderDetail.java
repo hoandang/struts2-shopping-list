@@ -5,19 +5,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.EmbeddedId;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.IdClass;
+import javax.persistence.MapsId;
 
 @Entity(name="OrderDetails")
+@IdClass(OrderDetailPK.class)
 public class OrderDetail
 {
-    @Id
-    private int id;
+    @EmbeddedId
+    private OrderDetailPK id;
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name="product_id")
+    @Id
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="product_id", insertable=false, updatable=false)
     private Product product;
 
-    @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name="order_id")
+    @Id
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="order_id", insertable=false, updatable=false)
     private Order order;
 
     private int quantity;
@@ -25,19 +33,19 @@ public class OrderDetail
 
     public OrderDetail() {}
 
-    public OrderDetail(Product product, Order order, int quantity, double subtotal)
+    public OrderDetail(OrderDetailPK id, int quantity, double subtotal)
     {
-        this.product  = product;
-        this.order    = order;
+        this.product  = id.getProduct();
+        this.order    = id.getOrder();
         this.quantity = quantity;
         this.subtotal = subtotal;
     }
 
-    public int getId()
+    public OrderDetailPK getId()
     {
         return id;
     }
-    public void setId(int id)
+    public void setId(OrderDetailPK id)
     {
         this.id = id;
     }
@@ -77,7 +85,19 @@ public class OrderDetail
     {
         this.subtotal = subtotal;
     }
+	@Override
+	public int hashCode() 
+    {
+		return getId().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object that) 
+    {
+		return (this == that) || ((that instanceof OrderDetail) && this.getId().equals(((OrderDetail) that).getId()));
+	}
 
+    @Override
     public String toString()
     {
         return getProduct() + ", " + getOrder() + ", " +

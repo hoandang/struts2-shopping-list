@@ -19,9 +19,8 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import com.hoan.models.Customer;
 import com.hoan.models.Order;
 import com.hoan.models.OrderDetail;
+import com.hoan.models.OrderDetailPK;
 
-//@Result(name="create", type="redirectAction", params = {"actionName" , "carts"})
-//@Action(results={@Result(name="create", location="/carts", type="redirect")})
 @Results({
     @Result(name="error", type="redirect", location="/"),
     @Result(name="create", type="redirect", location="/thankyou"),
@@ -61,11 +60,11 @@ public class PaymentController implements SessionAware
         Order order = new Order(customer, "UNPAID");
         service.save(order);
 
-        //// Create order line between product and order
+        // Create order line between product and order
         shoppingList = (List<Product>)session.get("shoppingList");
         for (Product product : shoppingList)
         {
-            service.save(new OrderDetail(product, order,
+            service.save(new OrderDetail(new OrderDetailPK(product, order),
                                          product.getQuantity(),
                                          product.getSubtotal()));
         }

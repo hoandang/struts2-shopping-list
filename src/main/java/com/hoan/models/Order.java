@@ -1,13 +1,16 @@
 package com.hoan.models;
 
 import java.sql.Timestamp;
+import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
+import javax.persistence.CascadeType;
 
 @Entity(name="Orders")
 public class Order
@@ -20,6 +23,14 @@ public class Order
     @JoinColumn(name="customer_id")
     private Customer customer;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Orders")
+    private List<OrderDetail> orderDetail;
+
+    private String status;
+
+    @Column(name="date_created")
+    private Timestamp dateCreated;
+
     public Order() {}
 
     public Order(Customer customer, String status)
@@ -28,10 +39,14 @@ public class Order
         this.status   = status;
     }
 
-    private String status;
-
-    @Column(name="date_created")
-    private Timestamp dateCreated;
+    public List<OrderDetail> getOrderDetails()
+    {
+        return orderDetail;
+    }
+    public void setOrderDetails(List<OrderDetail> orderDetail)
+    {
+        this.orderDetail = orderDetail;
+    }
 
     public int getId()
     {

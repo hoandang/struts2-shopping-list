@@ -1,4 +1,4 @@
-NSERT INTO Categories VALUES 
+INSERT INTO Categories VALUES 
 (NULL, "Flags"), 
 (NULL, "Medals"),
 (NULL, "Ribbons"),
