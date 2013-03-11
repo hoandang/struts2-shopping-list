@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0"
-	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
-	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-	
-	<persistence-unit name="shop">
+    xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+    <persistence-unit name="shop">
 
         <provider>
             org.apache.openjpa.persistence.PersistenceProviderImpl
@@ -15,18 +15,21 @@
         <class>com.hoan.models.Customer</class>
         <class>com.hoan.models.Order</class>
         <class>com.hoan.models.OrderDetail</class>
-		
-		<properties>
+
+        <properties>
             <property name  = "openjpa.RuntimeUnenhancedClasses" value = "unsupported"/>
             <property name  = "openjpa.DataCache"                value = "true"/>
             <property name  = "openjpa.QueryCache"               value = "true"/>
-            <property name  = "openjpa.ConnectionURL"            value = "jdbc:mysql://localhost:3306/shop" />
-			<property name  = "openjpa.ConnectionUserName"       value = "root" />
-			<property name  = "openjpa.ConnectionPassword"       value = "password" />
-			<property name  = "openjpa.ConnectionDriverName"     value = "com.mysql.jdbc.Driver" />
+            <!--<property name  = "openjpa.ConnectionURL"            value = "jdbc:mysql://localhost:3306/shop" />-->
+            <!--<property name  = "openjpa.ConnectionUserName"       value = "root" />-->
+            <!--<property name  = "openjpa.ConnectionPassword"       value = "password" />-->
+            <property name  = "openjpa.ConnectionURL"            value = "jdbc:cloudbees://shoppinglist" />
+            <property name  = "openjpa.ConnectionUserName"       value = "richdang" />
+            <property name  = "openjpa.ConnectionPassword"       value = "huyhoan0404" />
+            <property name  = "openjpa.ConnectionDriverName"     value = "com.mysql.jdbc.Driver" />
             <property name  = "openjpa.AutoDetach"               value="close, commit, nontx-read"/>
-		</properties>
+        </properties>
 
-	</persistence-unit>
+    </persistence-unit>
 
 </persistence>

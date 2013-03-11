@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">
+    <appid>shopping-list/</appid>
+    <context-param>
+        <param-name>application.environment</param-name>
+        <param-value>prod</param-value>
+    </context-param>
+    <resource name="jdbc/shoppinglist" auth="Container" type="javax.sql.DataSource">
+        <param name="username" value="richdang" />
+        <param name="password" value="huyhoan0404" />
+        <param name="url" value="jdbc:cloudbees://shoppinglist" />
+    </resource>
+</cloudbees-web-app>
