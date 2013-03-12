@@ -3,6 +3,12 @@ form
     margin: 0 0 15px;
 }
 
+#form-search
+{
+    margin:0 auto;
+    float:none;
+}
+
 #products 
 {
     list-style-type: none;
@@ -94,3 +100,4 @@ form
 {
     margin: 0;
 }
+

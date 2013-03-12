@@ -1,31 +1,55 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() 
+{
     loadNavigator();
-    document.getElementById("empty").addEventListener("click", function(e){
-        var msg = 'Are you sure you want to empty the cart ?';
-        customConfirm(msg);
-        e.preventDefault();
-    });
-
-    $("#btn-update-cart").mouseover(function() {
-        $("i", this).removeClass();
-        $("i", this).addClass("icon-refresh icon-spin icon-large");
-    }).mouseout(function(){
-        $("i", this).removeClass();
-        $("i", this).addClass("icon-repeat icon-large");
-    });
+    search();
+    spinEffect();
+    emptyCart();
 });
 
 function loadNavigator()
 {
     var url = document.URL.replace(/.*\//, '');
-    url = url.replace("?statusCode=303", '');
     var nav = document.getElementById("navigator").getElementsByTagName("li");
-    if (url === "home")
+
+    url = url.replace("?statusCode=303", '');
+
+    if (url === "home" || url === "categories")
         nav[0].className = "active";
     else if (url === "search")
         nav[2].className = "active";
+    else if (url === "orders")
+        nav[2].className = "active";
     else
         nav[1].className = "active";
+}
+
+function search()
+{
+    var search = document.getElementById("form-search");
+    if (search != null)
+    {
+        search.addEventListener("submit", function(e) 
+        {
+            var $this = $(this);
+            var id = $this.serialize().substring(3);
+            window.location.href = "/orders/" + id;
+            e.preventDefault();
+        });
+    }
+}
+
+function emptyCart()
+{
+    var empty = document.getElementById("empty");
+    if (empty != null) 
+    {
+        empty.addEventListener("click", function(e) 
+        {
+            var msg = 'Are you sure you want to empty the cart ?';
+            customConfirm(msg);
+            e.preventDefault();
+        });
+    }
 }
 
 function customConfirm(message, true_func, false_func){
@@ -65,4 +89,15 @@ function customConfirm(message, true_func, false_func){
     }
     document.body.appendChild(background);
     document.body.appendChild(modal);
+}
+
+function spinEffect()
+{
+    $("#btn-update-cart").mouseover(function() {
+        $("i", this).removeClass();
+        $("i", this).addClass("icon-refresh icon-spin icon-large");
+    }).mouseout(function(){
+        $("i", this).removeClass();
+        $("i", this).addClass("icon-repeat icon-large");
+    });
 }
